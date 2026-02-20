@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#1a1a1a,#2b2b2b);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;   /* INI YANG BIKIN CENTER */
+  min-height:100vh;
+  padding:20px;
+}
+
+
+    .container{
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(15px);
+      padding:40px;
+      border-radius:20px;
+      text-align:center;
+      width:90%;
+      max-width:500px;
+      animation:fadeIn .6s ease;
+    }
+
+    button{
+      background:#ff6b81;
+      border:none;
+      padding:12px 25px;
+      border-radius:30px;
+      color:white;
+      cursor:pointer;
+      margin-top:20px;
+      transition:.3s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 15px #ff6b81;
+    }
+
+    img{
+      width:100%;
+      border-radius:15px;
+      margin:15px 0;
+    }
+
+    .page{
+      display:none;
+    }
+
+    .page.active{
+      display:block;
+    }
+
+    .cake{
+      position:relative;
+      width:120px;
+      height:80px;
+      background:#ff6b81;
+      border-radius:10px;
+      margin:0 auto 25px auto;
+    }
+
+    .cake::before{
+      content:"";
+      position:absolute;
+      top:-20px;
+      left:10px;
+      right:10px;
+      height:25px;
+      background:#ffc0cb;
+      border-radius:10px;
+    }
+
+    .candle{
+      position:absolute;
+      top:-50px;
+      left:50%;
+      transform:translateX(-50%);
+      width:10px;
+      height:40px;
+      background:white;
+      border-radius:5px;
+    }
+
+    .flame{
+      position:absolute;
+      top:-18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:14px;
+      height:18px;
+      background:orange;
+      border-radius:50%;
+      animation:flicker .2s infinite alternate;
+    }
+
+    @keyframes flicker{
+      from{transform:translateX(-50%) scale(1);opacity:1;}
+      to{transform:translateX(-50%) scale(1.1);opacity:.8;}
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(10px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="p1">
+    <h1>Halo Sayanggg 😝❤️</h1>
+    <p>Aku punya sesuatu buat kamu, coba pencet deh hehehehehehehehe</p>
+    <button id="runBtn" onclick="start()">Buka</button>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="p2">
+    <h1>28 Februari 2025</h1>
+    <p>Hari dimana dunia dapet bonus satu orang spesial.</p>
+    <button onclick="show('p3')">Lanjut</button>
+  </div>
+
+  <!-- FOTO 1 -->
+  <div class="page" id="p3">
+    <h1>1 year ago</h1>
+    <img src="image (6).jpeg">
+    <p>Ini foto pas sweetseventeen kamu kemaren hehehe ini juga jadi foto pertama kamu yang aku ambil dari hp aku tau, trus ini pertama kali nya aku di undang ke birthday party sama seseorang dan hari itu juga hari lahir nya ola WKWKWKWKWK</p>
+    <button onclick="show('p4')">Lanjut</button>
+  </div>
+
+  <!-- FOTO 2-4 -->
+  <div class="page" id="p4">
+    <h1>Happy Eighteen</h1>
+    <img src="image (5).jpeg">
+    <img src="image (7).jpeg">
+    <img src="image.jpeg">
+    <p>Happy Birthday sayangkuuu cantikuuu duniakuu alam semestakuuu, alay dikit tapi gapapa aku suka soalnya hehehehehe 😝.
+     Semoga di umur kamu yang udah mulai masuk ke fase asli kehidupan kamu bisa jadi lebih segalanya dibanding kemarin entah itu dalam pendidikan kesehatan apapun lah. Aku janji buat selalu nemenin proses kamu sampai kapan pun sayangg jadi kamu jangan pernah patah semangat buat jadi lebih baik lagi yaaa 🔥 hehehehehehe.
+     Aku juga mau berterimakasih banget sama kamu karena kamu udah mau nerima aku dengan segala macam kekurangan aku, aku harap kamu bisa selalu menerima aku sampai kapan pun dan jangan lupa aku sayaanggggg bangeettttttt sama kamu hehehehehehe loveee u soo muchhh sayangggggggg 🤍</p>
+    <button onclick="show('p5')">Terakhir</button>
+  </div>
+
+  <!-- ENDING -->
+  <div class="page" id="p5">
+    <div class="cake">
+      <div class="candle">
+        <div class="flame" id="flame"></div>
+      </div>
+    </div>
+    <h1 id="text"></h1>
+    <p>Tiup lilinnya 🎂</p>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function start(){
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.1; // 0.0 sampe 1.0
+  music.play();
+  show("p2");
+}
+
+const btn = document.getElementById("runBtn");
+btn.style.position = "relative";
+
+let kaburCount = 0;
+
+btn.addEventListener("mouseenter", () => {
+  if(kaburCount < 3){
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+    kaburCount++;
+  } else {
+    btn.style.transform = "translate(0,0)";
+  }
+});
+
+
+
+function typeEffect(el,text,speed){
+  let i=0;
+  function typing(){
+    if(i<text.length){
+      el.innerHTML+=text.charAt(i);
+      i++;
+      setTimeout(typing,speed);
+    }
+  }
+  typing();
+}
+
+typeEffect(document.getElementById("text"),"Happy Birthday 🤍",80);
+
+navigator.mediaDevices.getUserMedia({audio:true})
+.then(stream=>{
+  const audioContext=new AudioContext();
+  const mic=audioContext.createMediaStreamSource(stream);
+  const analyser=audioContext.createAnalyser();
+  mic.connect(analyser);
+
+  const data=new Uint8Array(analyser.frequencyBinCount);
+
+  function detect(){
+    analyser.getByteFrequencyData(data);
+    let volume=data.reduce((a,b)=>a+b)/data.length;
+
+    if(volume>60){
+      document.getElementById("flame").style.display="none";
+      confetti({particleCount:200,spread:100,origin:{y:0.6}});
+      stream.getTracks().forEach(track=>track.stop());
+    }
+
+    requestAnimationFrame(detect);
+  }
+
+  detect();
+});
+</script>
+
+</body>
+</html>
